@@ -3,6 +3,7 @@ from sentinelhub import SHConfig
 import os
 import datetime
 import numpy as np
+import calendar
 
 import cv2
 
@@ -223,8 +224,8 @@ class SateliteProcessor:
             evalscript=evalscript_true_color,
             input_data=[
                 SentinelHubRequest.input_data(
-                    data_collection=DataCollection.SENTINEL2_L1C,
-                    # data_collection=DataCollection.SENTINEL2_L2A,
+                    # data_collection=DataCollection.SENTINEL2_L1C,
+                    data_collection=DataCollection.SENTINEL2_L2A,
                     time_interval=(date_from, date_to),
                 )
             ],
@@ -249,11 +250,13 @@ def get_snow_percent(img):
     return snow_pixels / (img.shape[0] * img.shape[1])
 
 
+
+
 if __name__ == '__main__':
     sProcessor = SateliteProcessor()
 
     # img_b = sProcessor.get_image_with_eval([13.799858,46.358893,13.883886,46.390734], 30, '2020-10-1', '2020-10-30', eval_mode='basic')
-    img_b = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, '2020-2-1', '2020-2-28', eval_mode='basic')
+    # img_b = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, '2020-2-1', '2020-2-28', eval_mode='basic')
     # img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 50, '2020-11-6', '2020-11-7', eval_mode='snow')
     # img_s = sProcessor.get_image_with_eval([13.799858,46.358893,13.883886,46.390734], 30, '2020-10-1', '2020-10-30', eval_mode='snow1')
     img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, '2020-2-1', '2020-2-28', eval_mode='snow1')
@@ -261,6 +264,20 @@ if __name__ == '__main__':
 
     # img = sProcessor.get_image_with_eval([14.408617, 45.9740637, 14.755332, 46.1459968], 50, '2020-4-1', '2020-4-30', eval_mode='simple')
     # img = sProcessor.get_image_with_eval([14.408617, 45.9740637, 14.755332, 46.1459968], 50, '2020-4-1', '2020-4-30', eval_mode='vegetation')
+
+    for i in range(2019, 2020):
+        for j in range(1, 13):
+            # print(calendar.monthrange(i, j))
+
+            startDate = str(i) + "-" + str(j) + "-1"
+            endDate =   str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i,j)[1])
+            img_b = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                                                   endDate, eval_mode='snow_mask')
+            img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                                                   endDate, eval_mode='basic')
+            print(get_snow_percent(img_b))
+            cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-img.PNG", img_b)
+            cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-base.PNG", img_s)
 
     cv2.imshow('img', img_b)
     cv2.waitKey(0)
