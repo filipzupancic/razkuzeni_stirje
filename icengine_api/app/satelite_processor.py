@@ -243,37 +243,42 @@ class SateliteProcessor:
 
         return image
 
-    def driverFunction(self, coordinates, resolution, yearsInThePast):
+    # def driverFunction(self, coordinates, resolution, yearsInThePast):
+    def driverFunction(self, coordinates, resolution, year):
         result = {}
 
-        for i in range(2020 - yearsInThePast, 2020):
-            tmpRes = {}
-            for j in range(1, 13):
-                # print(calendar.monthrange(i, j))
-                print(j)
-                startDate = str(i) + "-" + str(j) + "-1"
-                endDate = str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i, j)[1])
-                try:
-                    # img_b = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                    #                                  endDate, eval_mode='snow_mask')
-                    # img_s = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                    #                                  endDate, eval_mode='basic')
-                    img_g = self.get_image_with_eval(coordinates, resolution, startDate,
-                                                     endDate, eval_mode='snow1')
-                    snowPercentage = get_snow_percent(img_g)
-                    # print(snowPercentage)
-                    tmpRes[j] = snowPercentage
-                    # print(tmpRes)
+        # for i in range(2020 - yearsInThePast, 2020):
 
-                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
-                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-basic.PNG", img_s)
-                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow1.PNG", img_g)
-                except:
-                    print("An exception occurred")
-                    tmpRes[j] = -1
+        i = year
 
-            result[i] = tmpRes
-        return result
+        tmpRes = {}
+        for j in range(1, 13):
+            # print(calendar.monthrange(i, j))
+            print(j)
+            startDate = str(i) + "-" + str(j) + "-1"
+            endDate = str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i, j)[1])
+            try:
+                # img_b = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                #                                  endDate, eval_mode='snow_mask')
+                # img_s = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                #                                  endDate, eval_mode='basic')
+                img_g = self.get_image_with_eval(coordinates, resolution, startDate,
+                                                 endDate, eval_mode='snow1')
+                snowPercentage = get_snow_percent(img_g)
+                # print(snowPercentage)
+                tmpRes[j] = snowPercentage
+                # print(tmpRes)
+
+                # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
+                # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-basic.PNG", img_s)
+                # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow1.PNG", img_g)
+            except:
+                print("An exception occurred")
+                tmpRes[j] = -1
+
+        # result[i] = tmpRes
+
+        return tmpRes
 
 def get_snow_percent(img):
 
