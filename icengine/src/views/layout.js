@@ -32,14 +32,16 @@ class Layout {
     view() {
         return m("section.u-align-center.u-clearfix.u-image.u-section-1#carousel_5496", [
         	m("div.u-align-center-xs.u-sheet.u-sheet-1", [
-        		m("h1.u-align-center-xs.u-text.u-text-1", "ICY"),
-        		m("p.u-text.u-text-2", "SNOW OBSERVATION PLATFORM")
+        		m("h3.u-align-center-xs.u-text.u-text-1", "SNOW"),
+        		m("p.u-text.u-text-2", "OBSERVATION PLATFORM"),
+        		
 	        ]),	
 	        m("div.divider", [
-	        	m('div', [
+	        	m('div.search', [
+	        		m('p', 'Search for location'),
 		        	m('input', {
 		        		onkeyup: e => {
-		        			let val = e.target.value; 
+		        			let val = e.target.value;
 		        			clearTimeout(typeahead_timeout);
 		        			if (val.length > 0) {
 		        				typeahead_timeout = setTimeout(e => this.get_list(val), 500);
@@ -59,9 +61,8 @@ class Layout {
 		        		}, loc.display_name)
 		        	}),
 
-
 	        	]),
-	        	m('div', [
+	        	m('div.image_container', [
 		        	m('img', {
 		        		src: img_url
 		        	})
