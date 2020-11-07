@@ -1,0 +1,29 @@
+{
+  "name": "icengine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "express": "^4.17.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "mithril": "^2.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack src/index.js --output bin/app.js -d --watch",
+    "build": "webpack src/index.js --output bin/app.js -p",
+    "postinstall": "webpack src/index.js --output bin/app.js -p"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
