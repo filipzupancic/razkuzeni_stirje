@@ -43,21 +43,57 @@
 }
 
 .body {
-    font: normal 16px Verdana;
+    font: normal Verdana;
     margin: 0;
     height:700px;
+    opacity: 0.5;
     background-image: url("~/src/img/ice_background.jpg");
 }
 
 .layout {
-    margin: 10px auto;
-    background-image: url("~/src/img/ice_background.jpg");
+    margin: 0px auto;
 }
 
-.title {
-	text-align: center;
-	font-family: verdana;
-  	font-size: 100px;
-  	margin:10px;
+.header {
+	height:200px;
 }
 
+.divider {
+	display:flex;
+	/*flex-direction: column;*/
+	justify-content: center;
+}
+
+.search {
+	width: 300px;
+	height: 100px;
+	border: 1px solid black;
+	padding-top: 0px;
+	margin-bottom: 700px;
+	background-color: white;
+
+	/*margin-left: 300px; */
+}
+
+.image_container {
+	/*min-width: 70%;*/
+	padding-left: 40px;
+}
+
+hr {
+    width: 70%;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 0 10px;
+    padding: 10px 15px;
+    width: 100%;
+    background-color: black;
+}
