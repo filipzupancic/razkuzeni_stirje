@@ -1,5 +1,4 @@
 import m from 'mithril';
-import Game from "./game"
 
 let api_feed = []
 
@@ -72,8 +71,7 @@ class Home {
 	        	m('img', {
 	        		src: img_url
 	        	})
-        	]),
-        	m(Game)
+        	])
         ]);
     }
 }
