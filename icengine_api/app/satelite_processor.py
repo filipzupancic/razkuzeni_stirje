@@ -243,6 +243,39 @@ class SateliteProcessor:
 
         return image
 
+    def driverFunction(self, yearsInThePast):
+        result = {}
+
+
+        for i in range(2020 - yearsInThePast, 2020):
+            tmpRes = {}
+            for j in range(1, 13):
+                # print(calendar.monthrange(i, j))
+                print(j)
+                startDate = str(i) + "-" + str(j) + "-1"
+                endDate = str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i, j)[1])
+                try:
+                    # img_b = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                    #                                  endDate, eval_mode='snow_mask')
+                    # img_s = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                    #                                  endDate, eval_mode='basic')
+                    img_g = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                                                     endDate, eval_mode='snow1')
+                    snowPercentage = get_snow_percent(img_g)
+                    # print(snowPercentage)
+                    tmpRes[j] = snowPercentage
+                    # print(tmpRes)
+
+                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
+                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-basic.PNG", img_s)
+                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow1.PNG", img_g)
+                except:
+                    print("An exception occurred")
+                    tmpRes[j] = -1
+
+            result[i] = tmpRes
+        return result
+
 def get_snow_percent(img):
 
     snow_pixels = np.count_nonzero(img == 255)
@@ -259,32 +292,40 @@ if __name__ == '__main__':
     # img_b = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, '2020-2-1', '2020-2-28', eval_mode='basic')
     # img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 50, '2020-11-6', '2020-11-7', eval_mode='snow')
     # img_s = sProcessor.get_image_with_eval([13.799858,46.358893,13.883886,46.390734], 30, '2020-10-1', '2020-10-30', eval_mode='snow1')
-    img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, '2020-2-1', '2020-2-28', eval_mode='snow1')
+    # img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, '2020-2-1', '2020-2-28', eval_mode='snow1')
     # img_sm = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 50, '2020-11-6', '2020-11-7', eval_mode='snow_mask')
 
     # img = sProcessor.get_image_with_eval([14.408617, 45.9740637, 14.755332, 46.1459968], 50, '2020-4-1', '2020-4-30', eval_mode='simple')
     # img = sProcessor.get_image_with_eval([14.408617, 45.9740637, 14.755332, 46.1459968], 50, '2020-4-1', '2020-4-30', eval_mode='vegetation')
 
-    for i in range(2019, 2020):
-        for j in range(1, 13):
-            # print(calendar.monthrange(i, j))
+    # startDate = str(2017) + "-" + str(4) + "-1"
+    # endDate = str(2017) + "-" + str(4) + "-" + str(calendar.monthrange(2017, 4)[1])
 
-            startDate = str(i) + "-" + str(j) + "-1"
-            endDate =   str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i,j)[1])
-            img_b = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                                                   endDate, eval_mode='snow_mask')
-            img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                                                   endDate, eval_mode='basic')
-            print(get_snow_percent(img_b))
-            cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-img.PNG", img_b)
-            cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-base.PNG", img_s)
+    # print(startDate)
+    # print(endDate)
+    #
+    # img_b = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+    #                                  endDate, eval_mode='snow_mask')
+    #
+    # print("1")
+    #
+    # img_s = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+    #                                  endDate, eval_mode='basic')
+    # print("2")
+    # img_g = sProcessor.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+    #                                  endDate, eval_mode='snow1')
+    # print("3")
 
-    cv2.imshow('img', img_b)
-    cv2.waitKey(0)
+    # snowPercentage = get_snow_percent(img_b)
 
-    print(get_snow_percent(img_s))
+    sProcessor.driverFunction(3)
 
-    cv2.imshow('img', img_s)
-    cv2.waitKey(0)
+    # cv2.imshow('img', img_b)
+    # cv2.waitKey(0)
+    #
+    # print(get_snow_percent(img_s))
+    #
+    # cv2.imshow('img', img_s)
+    # cv2.waitKey(0)
     # cv2.imshow('img', img_sm)
     # cv2.waitKey(0)
