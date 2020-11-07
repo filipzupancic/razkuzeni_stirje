@@ -1,0 +1,65 @@
+.u-section-1 {
+  background-image: url("~/src/img/ice_background.jpg");
+  background-position: 50% 50%;
+}
+
+.u-section-1 .u-sheet-1 {
+  min-height: 652px;
+}
+
+.u-section-1 .u-text-1 {
+  text-transform: uppercase;
+  letter-spacing: 40px;
+  font-weight: 700;
+  width: 279px;
+  margin: 50px auto 0;
+}
+
+.u-section-1 .u-text-2 {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  line-height: 1.8;
+  width: 544px;
+  margin: 20px auto 60px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 {
+    background-size: 120%;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 {
+    background-position: 50.44% 0%;
+    background-size: auto 120%;
+  }
+
+  .u-section-1 .u-text-2 {
+    width: 540px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 {
+    background-position: 50.2% 0%;
+    background-size: auto 135%;
+  }
+
+  .u-section-1 .u-text-1 {
+    margin-left: 31px;
+    margin-right: 31px;
+  }
+
+  .u-section-1 .u-text-2 {
+    width: 340px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

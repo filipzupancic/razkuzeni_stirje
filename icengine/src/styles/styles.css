@@ -1,19 +1,20 @@
 /* styles.css */
 .body {
-    font: normal 16px Verdana;
+    font: normal Verdana;
     margin: 0;
     height:700px;
+    opacity: 0.5;
     background-image: url("~/src/img/ice_background.jpg");
 }
 
 .layout {
-    margin: 10px auto;
-    background-image: url("~/src/img/ice_background.jpg");
+    margin: 0px auto;
 }
 
-.title {
-	text-align: center;
-	font-family: verdana;
-  	font-size: 100px;
-  	margin:10px;
+.header {
+	height:200px;
+}
+
+.divider {
+	display:flex;
 }

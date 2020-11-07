@@ -25,7 +25,7 @@ class Home {
 
 	get_img(loc) {
 		let bb = loc.boundingbox;
-		img_url = 'https://tojesamentest-api.herokuapp.com/get_img?coord='+ bb[2] +'|' + bb[0] + '|' + bb[3]  + '|' + bb[1]  + '&res=50&date_from=2020-4-1&date_to=2020-4-30'
+		img_url = 'https://tojesamentest-api.herokuapp.com/get_img?coord='+ bb[2] +'|' + bb[0] + '|' + bb[3]  + '|' + bb[1]  + '&res=50&date_from=2020-4-1&date_to=2020-4-30';
 		m.redraw();
 		// loading_image = true;
 		// m.redraw();
