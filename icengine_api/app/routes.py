@@ -40,8 +40,17 @@ def get_img():
 
 @app.route('/get_snow_data')
 def get_snow_data():
+    coordinates = request.args.get('coord')
+    coordinates = [float(c) for c in coordinates.split("|")]
+
+    resolution = request.args.get('res')
+    resolution = int(resolution)
+
+    for_years = request.args.get('for_years')
+    for_years = int(for_years)
+
     satelite_processor = SateliteProcessor()
-    data = satelite_processor.driverFunction(3)
+    data = satelite_processor.driverFunction(coordinates, resolution, for_years)
     # print(data)
 
     return json.dumps(data)

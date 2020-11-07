@@ -243,9 +243,8 @@ class SateliteProcessor:
 
         return image
 
-    def driverFunction(self, yearsInThePast):
+    def driverFunction(self, coordinates, resolution, yearsInThePast):
         result = {}
-
 
         for i in range(2020 - yearsInThePast, 2020):
             tmpRes = {}
@@ -259,7 +258,7 @@ class SateliteProcessor:
                     #                                  endDate, eval_mode='snow_mask')
                     # img_s = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
                     #                                  endDate, eval_mode='basic')
-                    img_g = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                    img_g = self.get_image_with_eval(coordinates, resolution, startDate,
                                                      endDate, eval_mode='snow1')
                     snowPercentage = get_snow_percent(img_g)
                     # print(snowPercentage)
