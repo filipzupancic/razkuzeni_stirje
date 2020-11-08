@@ -1,6 +1,29 @@
 .u-section-1 {
+  /*background-image: url("~/src/img/ice_background.jpg");*/
+  /*background-position: 50% 50%;*/
+  height: 100%;
+/*  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  min-width: 100%;
+  min-height: 100%;*/
+}
+
+.bg {
   background-image: url("~/src/img/ice_background.jpg");
-  background-position: 50% 50%;
+  /*background-position: 50% 50%;*/
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .u-section-1 .u-sheet-1 {
@@ -10,8 +33,9 @@
 .u-section-1 .u-text-1 {
   text-transform: uppercase;
   letter-spacing: 40px;
+  text-indent: 40px;
   font-weight: 700;
-  width: 279px;
+  /*width: 279px;*/
   margin: 50px auto 0;
 }
 
