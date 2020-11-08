@@ -1,4 +1,6 @@
 // src/views/Layout.js
+import Game from "./game"
+
 var m = require("mithril")
 
 let api_feed = []
@@ -187,7 +189,8 @@ class Layout {
 		        	})
 	        	])
 	        ]),
-	        m(Chart)
+	        m(Chart),
+            m(Game)
 	    ])
     }
 }

@@ -1,45 +1,140 @@
 
+.title {
+  text-align: center;
+  font-family: verdana;
+  font-size: 100px;
+  margin:10px;
+}
+
 .game{
-	width: 600px;
+	width: 200px;
 	height: 200px; 
-	border: 1px solid black;
-	background-image: ;
+	border: 2px solid black;
 	margin: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-image: url("~/src/img/glac.jpg");
+  background-size: 200px 200px;
 }
 
 #climber{
-	width: 50px; 
+	width: 30px; 
 	height: 50px;
-	background-color: black;
+  background-image: url("~/src/img/climbL.png");
+  background-size: 30px 50px;
 
 	position: relative;
-	top: 150px;
+	top: 100px;
+  left: 75px;
 }
 
-.jump{
-	animation: jump 0.3s linear;	
+.climbing{
+  animation: climberChange;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
 }
 
-@keyframes jump {
+.moveRight{
+	animation: moveRight 0.3s linear;	
+}
+
+.moveLeft{
+  animation: moveLeft 0.3s linear; 
+}
+
+
+#ice{
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: -50px;
+  left: 80px;
+  background-image: url("~/src/img/ice-cube.png");
+  background-size: 30px 30px;
+  animation: moveIce 0.8s infinite linear;
+}
+
+@keyframes moveIce{
+  0%{
+    top: -50px;
+  }
+  100%{
+    top: 130px;
+  }
+}
+
+@keyframes climberChange {
+  0%{
+    background-image: url("~/src/img/climbL.png");
+    background-size: 30px 50px;
+  }
+
+  25%{
+    background-image: url("~/src/img/climbR.png");
+    background-size: 30px 50px;
+
+  }
+
+  50%{
+    background-image: url("~/src/img/climbL.png");
+    background-size: 30px 50px;
+  }
+
+  75%{
+    background-image: url("~/src/img/climbR.png");
+    background-size: 30px 50px;
+
+  }
+
+  100%{ 
+    background-image: url("~/src/img/climbL.png");
+    background-size: 30px 50px;
+  }
+}
+
+@keyframes moveRight {
 	0%{
-		top: 150px;
+		left: 75px;
 	}
 	
 	30%{
-		top: 130px;
+		left: 110px;
 	}
 
 	50%{
-		top: 80px;	
+		left: 150px;	
 	}
 
 	80%{
-		top: 130px;
+		left: 110px;
 	}
 
 	100%{
-		top: 150px;
+		left: 75px;
 	}
+}
+
+<<<<<<< HEAD
+=======
+@keyframes moveLeft {
+  0%{
+    left: 75px;
+  }
+  
+  30%{
+    left: 30px;
+  }
+
+  50%{
+    left: 0px;  
+  }
+
+  80%{
+    left: 30px;
+  }
+
+  100%{
+    left: 75px;
+  }
 }
 
 .layout {

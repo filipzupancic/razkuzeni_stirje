@@ -7,6 +7,9 @@ import calendar
 
 import cv2
 
+import subprocess
+import json
+
 from sentinelhub import MimeType, CRS, BBox, SentinelHubRequest, SentinelHubDownloadClient, DataCollection, bbox_to_dimensions, DownloadRequest
 
 # In case you put the credentials into the configuration file you can leave this unchanged
@@ -243,38 +246,88 @@ class SateliteProcessor:
 
         return image
 
-    def driverFunction(self, yearsInThePast):
+    # def driverFunction(self, coordinates, resolution, yearsInThePast):
+    def driverFunction(self, coordinates, resolution, year):
         result = {}
 
+        # for i in range(2020 - yearsInThePast, 2020):
 
-        for i in range(2020 - yearsInThePast, 2020):
-            tmpRes = {}
-            for j in range(1, 13):
-                # print(calendar.monthrange(i, j))
-                print(j)
-                startDate = str(i) + "-" + str(j) + "-1"
-                endDate = str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i, j)[1])
-                try:
-                    # img_b = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                    #                                  endDate, eval_mode='snow_mask')
-                    # img_s = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                    #                                  endDate, eval_mode='basic')
-                    img_g = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
-                                                     endDate, eval_mode='snow1')
-                    snowPercentage = get_snow_percent(img_g)
-                    # print(snowPercentage)
-                    tmpRes[j] = snowPercentage
-                    # print(tmpRes)
+        i = year
 
-                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
-                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-basic.PNG", img_s)
-                    # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow1.PNG", img_g)
-                except:
-                    print("An exception occurred")
-                    tmpRes[j] = -1
+        tmpRes = {}
+        for j in range(1, 13):
+            # print(calendar.monthrange(i, j))
+            print(j)
+            startDate = str(i) + "-" + str(j) + "-1"
+            endDate = str(i) + "-" + str(j) + "-" + str(calendar.monthrange(i, j)[1])
+            try:
+                # img_b = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                #                                  endDate, eval_mode='snow_mask')
+                # img_s = self.get_image_with_eval([13.1136347, 45.9360773, 14.4276034, 46.5124713], 80, startDate,
+                #                                  endDate, eval_mode='basic')
+                img_g = self.get_image_with_eval(coordinates, resolution, startDate,
+                                                 endDate, eval_mode='snow1')
+                snowPercentage = get_snow_percent(img_g)
+                # print(snowPercentage)
+                tmpRes[j] = snowPercentage
 
-            result[i] = tmpRes
-        return result
+                obj = {
+                    'snow_perc': snowPercentage,
+                    'coordinates': coordinates,
+                    'start_date': startDate,
+                    'end_date': endDate,
+                }
+
+                self.write_to_blockchain(obj)
+                # print(tmpRes)
+
+                # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
+                # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-basic.PNG", img_s)
+                # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow1.PNG", img_g)
+            except:
+                print("An exception occurred")
+                tmpRes[j] = -1
+
+        # result[i] = tmpRes
+
+        return tmpRes
+
+    def write_to_blockchain(self, obj):
+        j = json.dumps(obj)
+        j = j.encode('utf-8')
+        j = j.hex()
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'createrawtransaction', "[]", "{\"data\": \""+str(j)+"\"}"], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        out=out.strip()
+        # out = out.decode('ascii')
+
+        # print(out)
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'fundrawtransaction', out], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        out=out.strip()
+        json_o = json.loads(out)
+
+        hex_s = json_o['hex']
+        # print(out)
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'signrawtransaction', hex_s], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        out=out.strip()
+        json_o = json.loads(out)
+
+        hex_s = json_o['hex']
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'sendrawtransaction', hex_s], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        hexes_file = open('hexes.txt', 'a')
+        hexes_file.write(out)
+        hexes_file.close()
 
 def get_snow_percent(img):
 
