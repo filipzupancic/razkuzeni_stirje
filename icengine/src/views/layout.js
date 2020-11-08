@@ -46,39 +46,40 @@ let current_lon = 0;
 
 class IMap {
 	oncreate(vnode) {
-        // console.log(current_bb);
-		locationiq.key = 'pk.d87ac3e0a4f66c6028e249ba71e676dc';
-		// let center = [(parseFloat(current_bb[2]) + parseFloat(current_bb[3]))/2, (parseFloat(current_bb[0]) + parseFloat(current_bb[1]))/2]; 
-		let center = [current_lon, current_lat]; 
-        //Define the map and configure the map's theme
-        var map = new mapboxgl.Map({
-            container: 'map',
-            attributionControl: false, //need this to show a compact attribution icon (i) instead of the whole text
-            zoom: 8,
-            center: center
-        });
-        
+	 	let osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		});
 
-        //Define layers you want to add to the layer controls; the first element will be the default layer
-        var layerStyles = {
-            "Streets": "streets/vector",
-            // "Satellite": "earth/raster",
-            // "Hybrid": "hybrid/vector",
-            // "Dark": "dark/vector",
-            // "Light": "light/vector"
-        };
-        
-        map.addControl(new locationiqLayerControl({
-            key: locationiq.key,
-            layerStyles: layerStyles
-        }), 'top-left');
+		let baseUrl = "https://services.sentinel-hub.com/ogc/wms/029532b4-5518-4e61-8186-32d2b9ca99bc";
+		let sentinelHub = L.tileLayer.wms(baseUrl, {
+		    tileSize: 512,
+		    attribution: '&copy; <a href="http://www.sentinel-hub.com/" target="_blank">Sentinel Hub</a>',
+		    	 	 	 	urlProcessingApi:"https://services.sentinel-hub.com/ogc/wms/aeafc74a-c894-440b-a85b-964c7b26e471", 
+		 	 	 	 	maxcc:20, 
+		 	 	 	 	minZoom:6, 
+		 	 	 	 	maxZoom:16, 
+		 	 	 	 	// preset:"NDVI", 
+		 	 	 	 	layers:"TRUE_COLOR", 
+		 	 	 	 	time:"2020-05-01/2020-11-08", 
 
-        var el = document.createElement('div');
-        el.id = 'markerWithExternalCss';
-        // finally, create the marker
-        var markerWithExternalCss = new mapboxgl.Marker(el)
-									            .setLngLat(center)
-									            .addTo(map);
+		});
+
+		let baseMaps = {
+		    'OpenStreetMap': osm
+		};
+		let overlayMaps = {
+		    'Sentinel Hub WMS': sentinelHub
+		}
+
+		let map = L.map('map', {
+		    center: [current_lat, current_lon], // lat/lng in EPSG:4326
+		    zoom: 11,
+		    layers: [osm, sentinelHub]
+		});
+
+		var marker = L.marker([current_lat, current_lon]).addTo(map);
+
+		L.control.layers(baseMaps, overlayMaps).addTo(map);
 	}
 
 	view() {
