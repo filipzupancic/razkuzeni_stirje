@@ -42,14 +42,6 @@
 	}
 }
 
-.body {
-    font: normal Verdana;
-    margin: 0;
-    height:700px;
-    opacity: 0.5;
-    background-image: url("~/src/img/ice_background.jpg");
-}
-
 .layout {
     margin: 0px auto;
 }
@@ -66,10 +58,9 @@
 
 .search_container {
 	width: 300px;
-	height: 100px;
 	border: 1px solid black;
 	padding-top: 0px;
-	margin-bottom: 700px;
+	padding-bottom: 15px;
 	background-color: white;
 	/*overflow-y: auto;*/
 
@@ -77,28 +68,18 @@
 }
 
 .suggestions {
-	/*height: 200px;*/
-	/*overflow-y: auto;*/
+	max-height: 280px;
+	overflow-y: auto;
+	/*text-align: left;*/
 }
 
 .image_container {
 	/*min-width: 70%;*/
-	/*padding-left: 40px;*/
-}
-
-.input {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    box-sizing: border-box;
-    display: block;
-    margin: 0 0 10px;
-    padding: 10px 15px;
-    width: 100%;
-    background-color: black;
+	padding-left: 40px;
 }
 
 .graph-box {
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     padding: 20px 40px;
     /*padding-top: 20px;*/
     /*padding-bottom: 20px;*/

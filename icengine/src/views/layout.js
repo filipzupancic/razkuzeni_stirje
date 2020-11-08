@@ -168,9 +168,9 @@ class Layout {
 		        		}
 		        	}),
 
-		        	loading &&
-		        	m('p', 'Loading...'),
 		        	m("div.suggestions", [
+		        		loading &&
+		        		m('p', 'Loading...'),
 			        	api_feed.map(loc => {
 			        		return m('p', {
 			        			style: 'cursor: pointer',
