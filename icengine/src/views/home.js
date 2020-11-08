@@ -1,5 +1,5 @@
 import m from 'mithril';
-import Game from "./game"
+
 
 let api_feed = []
 
@@ -73,9 +73,8 @@ class Home {
 	        		src: img_url
 	        	})
         	]),
-        	m(Game)
+        	
         ]);
     }
 }
-
 export default Home;
