@@ -89,8 +89,6 @@ class IMap {
 
 class Chart {
 	oncreate(vnode) {
-		// var ctx = vnode.dom.querySelector('canvas').getContext('2d');
-		// this.ctx = ctx;
 
 		var y_data = Object.keys(years).map(year => {
         	return [year].concat(years[year]);
@@ -102,9 +100,6 @@ class Chart {
         	y_types[year] = 'bar';
         });
 
-		// console.log(y_types);
-
-		// if (!by_years) {
 		var chart = c3.generate({
 		    bindto: '#chart',
 		    data: {
