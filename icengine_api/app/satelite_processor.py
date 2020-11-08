@@ -7,6 +7,9 @@ import calendar
 
 import cv2
 
+import subprocess
+import json
+
 from sentinelhub import MimeType, CRS, BBox, SentinelHubRequest, SentinelHubDownloadClient, DataCollection, bbox_to_dimensions, DownloadRequest
 
 # In case you put the credentials into the configuration file you can leave this unchanged
@@ -267,6 +270,15 @@ class SateliteProcessor:
                 snowPercentage = get_snow_percent(img_g)
                 # print(snowPercentage)
                 tmpRes[j] = snowPercentage
+
+                obj = {
+                    'snow_perc': snowPercentage,
+                    'coordinates': coordinates,
+                    'start_date': startDate,
+                    'end_date': endDate,
+                }
+
+                self.write_to_blockchain(obj)
                 # print(tmpRes)
 
                 # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
@@ -279,6 +291,43 @@ class SateliteProcessor:
         # result[i] = tmpRes
 
         return tmpRes
+
+    def write_to_blockchain(self, obj):
+        j = json.dumps(obj)
+        j = j.encode('utf-8')
+        j = j.hex()
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'createrawtransaction', "[]", "{\"data\": \""+str(j)+"\"}"], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        out=out.strip()
+        # out = out.decode('ascii')
+
+        # print(out)
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'fundrawtransaction', out], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        out=out.strip()
+        json_o = json.loads(out)
+
+        hex_s = json_o['hex']
+        # print(out)
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'signrawtransaction', hex_s], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        out=out.strip()
+        json_o = json.loads(out)
+
+        hex_s = json_o['hex']
+
+        process = subprocess.Popen(['blockchain/bitcoin-cli.exe', '-datadir=blockchain/data', 'sendrawtransaction', hex_s], stdout=subprocess.PIPE, encoding='utf8')
+        out, err = process.communicate()
+
+        hexes_file = open('hexes.txt', 'a')
+        hexes_file.write(out)
+        hexes_file.close()
 
 def get_snow_percent(img):
 
