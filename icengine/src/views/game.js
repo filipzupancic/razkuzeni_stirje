@@ -16,6 +16,8 @@ let facts = [
 	"The average temperature of the Earth is determined by the greenhouse effect"
 ];
 
+let ice_falling = false;
+
 let fact_index = 0;
 
 class Game {
@@ -33,7 +35,7 @@ class Game {
 			);
 			// console.log(iceBottom);
 
-			if(iceBottom < -50 && iceBottom > -80 && climberLeft == 75 && !game_stopped){
+			if(iceBottom < -35 && iceBottom > -80 && climberLeft == 75 && !game_stopped){
 				// alert("Approximately 10 percent of the Earth is covered by glaciers; during the last Ice Age, they covered one-third of the Earth’s surface.");
 				// ice = document.getElementById("ice").classList.remove('.moving');
 				game_stopped = true;
@@ -54,6 +56,9 @@ class Game {
     			this.moveLeft();
     			// alert("leva")
     		}
+    		// if (e.keyCode == 13){ 
+    		// 	game_stopped = false;
+    		// }
     	}
 	}
 
@@ -63,7 +68,7 @@ class Game {
 			climber.classList.add("moveRight");
 			setTimeout(function(){
 				climber.classList.remove("moveRight");
-			}, 300);
+			}, 350);
 		}
 	}
 
@@ -72,7 +77,7 @@ class Game {
 			climber.classList.add("moveLeft");
 			setTimeout(function(){
 				climber.classList.remove("moveLeft");
-			}, 300);
+			}, 350);
 		}
 	}
 
@@ -85,7 +90,9 @@ class Game {
     view() {
         return m('.game-over', [
         	m('.fact-container' + (!game_stopped ? '.hidden' : ''), {
-        		onclick: e => game_stopped = false
+        		onclick: e => {
+        			game_stopped = false;
+        		}
         	}, [
         		m('.fact', facts[fact_index]),
         		m('.continue', 'Continue...')

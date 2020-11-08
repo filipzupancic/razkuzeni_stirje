@@ -30,9 +30,11 @@ let min_year = 2017;
 
 let years = {};
 
-let current_bb = []; 
+// let current_bb = []; 
 let loc_name = '';
 
+let current_lat = 0;
+let current_lon = 0;
 
 
 // let byYears = {
@@ -46,7 +48,8 @@ class IMap {
 	oncreate(vnode) {
         // console.log(current_bb);
 		locationiq.key = 'pk.d87ac3e0a4f66c6028e249ba71e676dc';
-		let center = [(parseFloat(current_bb[2]) + parseFloat(current_bb[3]))/2, (parseFloat(current_bb[0]) + parseFloat(current_bb[1]))/2]; 
+		// let center = [(parseFloat(current_bb[2]) + parseFloat(current_bb[3]))/2, (parseFloat(current_bb[0]) + parseFloat(current_bb[1]))/2]; 
+		let center = [current_lon, current_lat]; 
         //Define the map and configure the map's theme
         var map = new mapboxgl.Map({
             container: 'map',
@@ -200,7 +203,10 @@ class Layout {
 
 	get_img(loc, year, get_img) {
 		let bb = loc.boundingbox;
-		current_bb = bb;
+		// current_bb = bb;
+		current_lat = loc.lat;
+		current_lon = loc.lon;
+		// console.log(loc);
 		img_url = 'https://icengineapp-api.herokuapp.com/get_snow_data?coord='+ bb[2] +'|' + bb[0] + '|' + bb[3]  + '|' + bb[1]  + '&res=100&year=' + year;
 		// m.redraw();
 
@@ -255,7 +261,8 @@ class Layout {
 		        			if (val.length > 0) {
 		        				typeahead_timeout = setTimeout(e => this.get_list(val), 500);
 		        			}
-		        		}
+		        		},
+		        		placeholder: 'Ljubljana'
 		        	}),
 
 		        	m("div.suggestions", [
@@ -296,7 +303,9 @@ class Layout {
 					is_getting_snow = false;
 					has_game = false;
 					current_year = 2019;
-					current_bb = [];
+					// current_bb = [];
+					current_lat = 0;
+					current_lon = 0;
 					loc_name = '';
 	        	}
 	        }, 'Search another location'),

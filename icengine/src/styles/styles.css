@@ -108,11 +108,11 @@ body, html {
 }
 
 .moveRight{
-	animation: moveRight 0.3s linear;	
+	animation: moveRight 0.35s linear;	
 }
 
 .moveLeft{
-  animation: moveLeft 0.3s linear; 
+  animation: moveLeft 0.35s linear; 
 }
 
 
@@ -120,15 +120,18 @@ body, html {
   width: 30px;
   height: 30px;
   position: relative;
-  top: -50px;
+  top: -80px;
   left: 80px;
   background-image: url("~/src/img/ice-cube.png");
   background-size: 30px 30px;
+  opacity: 0;
+  display: none;
   /*animation: moveIce 0.8s infinite linear;*/
 }
 
 .ice-moving{
-  animation: moveIce 0.8s infinite linear;
+  animation: moveIce 1.2s infinite linear 1s;
+  display: block !important;
 }
 
 #map {
@@ -142,10 +145,23 @@ body, html {
 
 @keyframes moveIce{
   0%{
-    top: -50px;
+    opacity: 0;
+    top: -80px;
+  }
+  10%{
+    opacity: 1;
+  }
+  70%{
+    /*top: 110px;*/
+    opacity: 1;
+  }
+  80%{
+    top: 150px;
+    opacity: 0;
   }
   100%{
-    top: 130px;
+    top: 150px;
+    opacity: 0;
   }
 }
 
