@@ -19,7 +19,7 @@ let is_getting_snow = false;
 let has_game = false;
 
 let current_year = 2019;
-let min_year = 2015;
+let min_year = 2017;
 
 // let years = {
 // 	'2017': [20, 30, 20, 10, 40, 5, 7, 1, 10, 20, 30, 33],
@@ -59,10 +59,10 @@ class IMap {
         //Define layers you want to add to the layer controls; the first element will be the default layer
         var layerStyles = {
             "Streets": "streets/vector",
-            "Satellite": "earth/raster",
-            "Hybrid": "hybrid/vector",
-            "Dark": "dark/vector",
-            "Light": "light/vector"
+            // "Satellite": "earth/raster",
+            // "Hybrid": "hybrid/vector",
+            // "Dark": "dark/vector",
+            // "Light": "light/vector"
         };
         
         map.addControl(new locationiqLayerControl({

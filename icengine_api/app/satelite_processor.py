@@ -278,7 +278,7 @@ class SateliteProcessor:
                     'end_date': endDate,
                 }
 
-                # self.write_to_blockchain(obj)
+                self.write_to_blockchain(obj)
                 # print(tmpRes)
 
                 # cv2.imwrite('slikce/' + str(i) + "-" + str(j) + "-snow_mask.PNG", img_b)
