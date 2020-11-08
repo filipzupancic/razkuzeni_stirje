@@ -3,12 +3,16 @@ from flask_httpauth import HTTPTokenAuth
 from flask import request, send_file
 from PIL import Image
 from app.satelite_processor import SateliteProcessor
+from flask_cors import CORS, cross_origin
 import urllib.parse
 import os
 import io
 import cv2
 import json
 
+cors = CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/')
@@ -39,6 +43,7 @@ def get_img():
     return send_file(file_object, mimetype='image/PNG')
 
 @app.route('/get_snow_data')
+@cross_origin()
 def get_snow_data():
     coordinates = request.args.get('coord')
     coordinates = [float(c) for c in coordinates.split("|")]
