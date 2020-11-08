@@ -7,6 +7,8 @@ import urllib.parse
 import os
 import io
 import cv2
+import json
+
 
 
 @app.route('/')
@@ -35,3 +37,24 @@ def get_img():
     file_object.seek(0)
 
     return send_file(file_object, mimetype='image/PNG')
+
+@app.route('/get_snow_data')
+def get_snow_data():
+    coordinates = request.args.get('coord')
+    coordinates = [float(c) for c in coordinates.split("|")]
+
+    resolution = request.args.get('res')
+    resolution = int(resolution)
+
+    # for_years = request.args.get('for_years')
+    # for_years = int(for_years)
+
+    year = request.args.get('year')
+    year = int(year)
+
+    satelite_processor = SateliteProcessor()
+    # data = satelite_processor.driverFunction(coordinates, resolution, for_years)
+    data = satelite_processor.driverFunction(coordinates, resolution, year)
+    # print(data)
+
+    return json.dumps(data)
